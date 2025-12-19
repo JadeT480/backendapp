@@ -1,10 +1,29 @@
 require("dotenv").config();
 const express = require("express")
+const session = require("express-session");
+const passport = require("passport");
+
 const pool = require("./config/db");
-const app = express()
 const authRoutes = require("./routes/authRoutes");
 
+require("./config/passport");
+
+const app = express()
+
 app.use(express.json());
+
+// Sessions - always before passport.session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "supersecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use("/users", authRoutes);

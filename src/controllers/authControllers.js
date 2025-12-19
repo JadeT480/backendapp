@@ -36,4 +36,8 @@ async function register(req, res) {
   }
 }
 
-module.exports = { register };
+async function login(req, res) {
+
+}
+
+module.exports = { register, login };
