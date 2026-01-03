@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
+const passport = require("passport");
 
 async function register(req, res) {
   try {
@@ -36,8 +37,17 @@ async function register(req, res) {
   }
 }
 
-async function login(req, res) {
+async function login(req, res, next) {
+  passport.authenticate("local", (err, user, info) => {
+    if (!user) {
+      return res.status(401).json({ message: info.message });
+    }
 
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      res.json({ message: "Login successful" });
+    });
+  }) (req, res, next);
 }
 
 module.exports = { register, login };

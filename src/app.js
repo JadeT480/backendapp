@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const pool = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const products = require("./routes/products");
 
 require("./config/passport");
 
@@ -27,6 +28,8 @@ app.use(passport.session());
 
 // Routes
 app.use("/users", authRoutes);
+
+app.use("/products", products);
 
 // homepage route - checks that database is connected
 app.get("/", async (req, res) => {

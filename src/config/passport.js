@@ -1,5 +1,5 @@
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
+const { Strategy: LocalStrategy} = require("passport-local");
 const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 
@@ -8,7 +8,7 @@ passport.use(
     { usernameField: "email" },
     async (email, password, done) => {
       try {
-        const user = await userModel.findByEmail({ email });
+        const user = await userModel.findByEmail(email);
         if (!user) {
           return done(null, false, { message: "User not found" });
         }
